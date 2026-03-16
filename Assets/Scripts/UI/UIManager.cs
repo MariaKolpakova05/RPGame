@@ -59,8 +59,7 @@ public class UIManager : MonoBehaviour
     {
         if (playerCombat != null && magicIcon != null)
         {
-            // Здесь нужно получить текущий кулдаун из PlayerCombat
-            // Для примера используем простую логику
+            //получение текущего кулдауна из PlayerCombat
             if (currentMagicCooldown > 0)
             {
                 currentMagicCooldown -= Time.deltaTime;

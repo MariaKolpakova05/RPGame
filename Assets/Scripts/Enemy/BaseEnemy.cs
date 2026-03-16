@@ -51,7 +51,6 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IDamageDealer
             // Используем UnityEvents из HealthSystem
             var deathEvent = new UnityEngine.Events.UnityEvent();
             deathEvent.AddListener(Die);
-            // Здесь нужно будет добавить событие через Inspector или код
         }
     }
     
