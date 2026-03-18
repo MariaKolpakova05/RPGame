@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         playerCamera = GetComponentInChildren<Camera>();
         
-        // Блокировка курсора в центре экрана
+        //блокировка курсора в центре экрана
         Cursor.lockState = CursorLockMode.Locked;
     }
     
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         controller.Move(move * speed * Time.deltaTime);
         
-        // Анимации
+        //Анимации
         if (animator != null)
         {
             bool isMoving = moveX != 0 || moveZ != 0;
