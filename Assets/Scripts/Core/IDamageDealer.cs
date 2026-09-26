@@ -1,9 +1,6 @@
-using UnityEngine;
-
+//интерфейс для объектов, которые могут наносить урон
 public interface IDamageDealer
 {
-    float PhysicalDamage { get; }
-    float MagicalDamage { get; }
-    DamageType DamageType { get; }
-    void DealDamage(IDamageable target);
+    float GetDamage(); //сила атк
+    DamageType GetDamageType(); //тип урона физа или маг
 }
