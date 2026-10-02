@@ -1719,7 +1719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &442956570367189520
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4187,7 +4187,7 @@ MonoBehaviour:
   runSpeed: 8
   rotationSpeed: 10
   physicalDamage: 15
-  magicalDamage: 200
+  magicalDamage: 50
   attackRange: 2
   physicalCooldown: 0.5
   magicCooldown: 2

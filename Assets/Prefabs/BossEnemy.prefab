@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1e8001b10f8824ea2f4fb8aaa42a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 200
   healthBar: {fileID: 599583923824870230}
 --- !u!114 &8511018635403993097
 MonoBehaviour:
@@ -171,7 +171,7 @@ MonoBehaviour:
   attackRange: 3
   attackCooldown: 1.5
   strongAttackCooldown: 4
-  baseDamage: 25
+  baseDamage: 0
   currentWeapon: 4
   currentElement: 1
 --- !u!1 &1881116127563357357

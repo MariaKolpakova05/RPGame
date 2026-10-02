@@ -12,11 +12,12 @@ public class MainMenuView : MonoBehaviour
     public Button PlayButton;
     public Button SettingsButton;
     public Button BackButton;
+    public Button QuitButton;
 
     [Header("Settings")]
     public Slider VolumeSlider;
 
     [Header("Peaceful Mode")]
-    public Toggle PeacefulModeToggle;         // ← переключатель "Мирный режим"
-    public TextMeshProUGUI PeacefulModeLabel; // опционально: текст рядом
+    public Toggle PeacefulModeToggle;
+    public TextMeshProUGUI PeacefulModeLabel;
 }

@@ -36,6 +36,9 @@ public class UIController : MonoBehaviour
 
         GameEvents.PlayerDied += OnPlayerDied;
         GameEvents.ScoreChanged += OnScoreChanged;
+        GameEvents.BossMessage    += view.ShowBossMessage;
+        GameEvents.BossDefeated   += OnBossDefeated;
+        GameEvents.VictoryAchieved   += OnVictoryAchieved;
 
         view.OnSaveRequested += SaveGame;
         view.OnLoadRequested += LoadGame;
@@ -45,6 +48,7 @@ public class UIController : MonoBehaviour
 
         view.ShowGameOver(false);
         view.ShowPauseMenu(false);
+        view.ShowVictory(false);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -78,7 +82,7 @@ public class UIController : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // ← Через ServiceLocator
+        // Через ServiceLocator
         if (ServiceLocator.TryGet<IAudioService>(out var audio))
             audio.PlayDeathSound();
     }
@@ -93,7 +97,7 @@ public class UIController : MonoBehaviour
     {
         model.IsPaused = !model.IsPaused;
         view.ShowPauseMenu(model.IsPaused);
-
+        
         Time.timeScale = model.IsPaused ? 0 : 1;
         Cursor.lockState = model.IsPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = model.IsPaused;
@@ -103,6 +107,7 @@ public class UIController : MonoBehaviour
     {
         model.IsPaused = false;
         view.ShowPauseMenu(false);
+        view.ShowVictory(false);
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -143,6 +148,8 @@ public class UIController : MonoBehaviour
 
     public void RestartGame()
     {
+        if (ServiceLocator.TryGet<ScoreManager>(out var score))
+            score.ResetScore();
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -151,15 +158,47 @@ public class UIController : MonoBehaviour
 
     public void QuitToMainMenu()
     {
+        if (ServiceLocator.TryGet<ScoreManager>(out var score))
+            score.ResetScore();
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         SceneManager.LoadScene("MainMenu");
     }
 
+    private void OnBossDefeated()
+    {
+        Debug.Log("Босс побеждён!");
+    }
+
+    private void OnVictoryAchieved()
+    {
+        // Не показываем победу, если игрок уже мёртв
+        if (model.IsGameOver) return;
+
+        model.IsPaused = false;
+        view.ShowPauseMenu(false);
+        view.ShowGameOver(false);
+        view.ShowVictory(true);
+
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (ServiceLocator.TryGet<IAudioService>(out var audio))
+            audio.PlayVictoryMusic();
+
+        Debug.Log("Победа!");
+    }
+
     private void OnDestroy()
     {
         GameEvents.PlayerDied -= OnPlayerDied;
         GameEvents.ScoreChanged -= OnScoreChanged;
+        GameEvents.BossMessage  -= view.ShowBossMessage;
+        GameEvents.BossDefeated -= OnBossDefeated;
+        GameEvents.VictoryAchieved -= OnVictoryAchieved;
     }
+
+    
 }

@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        
         if (!model.IsAlive) return;
 
         model.RegenerateMana(Time.deltaTime);
@@ -91,7 +92,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
 
         float animSpeed = isWalking ? (isRunning ? 1f : 0.5f) : 0f;
-        view.SetMovement(animSpeed, isWalking);
+        view.SetMovement(animSpeed, isWalking, isWalking && isRunning);
+
+        
     }
 
     private void OnPhysicalAttack(InputAction.CallbackContext ctx)

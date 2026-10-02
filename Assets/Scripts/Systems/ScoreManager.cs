@@ -7,6 +7,7 @@ public class ScoreManager : MonoBehaviour
     private int currentScore = 0;
     private int enemiesKilled = 0;
     private bool bossSpawned = false;
+    private bool _victoryTriggered = false;
     
     private void Awake()
     {
@@ -41,8 +42,9 @@ public class ScoreManager : MonoBehaviour
         }
         
         // Победная мелодия после 5 убийств
-        if (enemiesKilled >= 5)
+        if (enemiesKilled >= 5 && !_victoryTriggered)
         {
+            _victoryTriggered = true;
             GameEvents.VictoryAchieved?.Invoke();
         }
     }
@@ -59,6 +61,17 @@ public class ScoreManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void ResetScore()
+    {
+        currentScore = 0;
+        enemiesKilled = 0;
+        bossSpawned = false;      // ← важно, иначе на новой игре босс не заспавнится
+        _victoryTriggered = false; // ← если добавляла флаг для победы
+        GameEvents.ScoreChanged?.Invoke(currentScore);
+        GameEvents.EnemyKilled?.Invoke(enemiesKilled);
+        Debug.Log("ScoreManager сброшен");
     }
     //чтение из вне
     public int CurrentScore => currentScore;

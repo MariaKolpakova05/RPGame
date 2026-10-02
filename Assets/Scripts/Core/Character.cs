@@ -12,6 +12,9 @@ public abstract class Character : MonoBehaviour
     protected Animator animator;
     
     protected bool isAlive = true;
+
+    private static readonly int HitHash   = Animator.StringToHash("Hit");
+    private static readonly int DeathHash = Animator.StringToHash("Death");
     
     //вызывается при создании объекта
     protected virtual void Awake()
@@ -27,8 +30,15 @@ public abstract class Character : MonoBehaviour
     {
         if (healthComponent != null)
         {
-            healthComponent.OnDeath += HandleDeath; //подписка на событие сметри
+            healthComponent.OnDeath += HandleDeath;
+            healthComponent.OnDamaged += HandleDamaged; //подписка на событие сметри и получение урона
         }
+    }
+
+    protected virtual void HandleDamaged(float amount)
+    {
+        if (animator != null && isAlive)
+            animator.SetTrigger(HitHash);
     }
     
     //обработка смерти
@@ -37,7 +47,7 @@ public abstract class Character : MonoBehaviour
         isAlive = false;
         if (animator != null)
         {
-            animator.SetTrigger("Death");
+            animator.SetTrigger(DeathHash);
         }
     }
      //отписка от события
@@ -46,6 +56,7 @@ public abstract class Character : MonoBehaviour
         if (healthComponent != null)
         {
             healthComponent.OnDeath -= HandleDeath;
+            healthComponent.OnDamaged -= HandleDamaged;
         }
     }
 }

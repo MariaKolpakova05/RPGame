@@ -12,16 +12,18 @@ public class PlayerView : MonoBehaviour
 
     private static readonly int SpeedHash = Animator.StringToHash("Speed");
     private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
+    private static readonly int IsRunningHash    = Animator.StringToHash("isRunning");
     private static readonly int PhysicalAttackHash = Animator.StringToHash("PhysicalAttack");
     private static readonly int MagicAttackHash = Animator.StringToHash("MagicalAttack");
     private static readonly int HitHash = Animator.StringToHash("Hit");
     private static readonly int DeathHash = Animator.StringToHash("Death");
 
-    public void SetMovement(float speed, bool isWalking)
+    public void SetMovement(float speed, bool isWalking, bool isRunning)
     {
         if (animator == null) return;
         animator.SetFloat(SpeedHash, speed);
         animator.SetBool(IsWalkingHash, isWalking);
+        animator.SetBool(IsRunningHash, isRunning);
     }
 
     public void PlayPhysicalAttack()

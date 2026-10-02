@@ -14,6 +14,9 @@ public class MainMenuController : MonoBehaviour
         view.SettingsButton.onClick.AddListener(OpenSettings);
         view.BackButton.onClick.AddListener(CloseSettings);
 
+        if (view.QuitButton != null)
+            view.QuitButton.onClick.AddListener(QuitGame);
+
         // Громкость
         view.VolumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
         view.VolumeSlider.onValueChanged.AddListener(OnVolumeChanged);
@@ -60,5 +63,16 @@ public class MainMenuController : MonoBehaviour
     {
         if (view.PeacefulModeLabel != null)
             view.PeacefulModeLabel.text = isOn ? "Мирный" : "Обычный";
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Выход из игры");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

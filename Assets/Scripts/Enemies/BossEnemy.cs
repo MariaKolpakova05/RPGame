@@ -122,7 +122,11 @@ public class BossEnemy : Character
         LastStrongAttackTime = Time.time;
     }
 
-    public void Announce(string message) => Debug.Log($"Босс: {message}");
+    public void Announce(string message)
+    {
+        Debug.Log($"Босс: {message}");
+        GameEvents.BossMessage?.Invoke(message);
+    }
 
     private float GetWeaponMultiplier() => currentWeapon == WeaponType.BossSword ? 1.2f : 1.0f;
 
@@ -155,6 +159,10 @@ public class BossEnemy : Character
         if (navAgent != null) navAgent.isStopped = true;
         if (bossHealth != null) bossHealth.OnDamaged -= OnBossDamaged;
         if (ScoreManager.Instance != null) ScoreManager.Instance.AddScore(ScoreValue);
+
+        GameEvents.BossMessage?.Invoke("Ты победил меня... Но это ещё не конец.");
+        GameEvents.BossDefeated?.Invoke();
+
         Destroy(gameObject, 3f);
     }
 }

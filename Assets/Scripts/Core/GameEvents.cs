@@ -7,4 +7,7 @@ public static class GameEvents
     public static Action<int> EnemyKilled; //событие передает количество убитых врагов при изменении
     public static Action BossAppeared;
     public static Action VictoryAchieved;
+
+    public static Action<string> BossMessage; //реплики босса
+    public static Action BossDefeated; //смерть босса
 }

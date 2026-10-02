@@ -3,7 +3,7 @@ using System;
 //управление здоровьем для всех объектов(игрок, враги и босс)
 public class HealthComponent : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float maxHealth = 100f; //максимальное здоровье
+    [SerializeField] private float maxHealth = 999f; //максимальное здоровье
     [SerializeField] private HealthBarUI healthBar; //ссылка на полоску здоровья 
     
     private float currentHealth; //текущее здоровье

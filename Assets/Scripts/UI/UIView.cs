@@ -22,6 +22,7 @@ public class UIView : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject victoryMenu;
 
     [Header("Buttons")]
     [SerializeField] private Button saveButton;
@@ -30,11 +31,19 @@ public class UIView : MonoBehaviour
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button restartButton;
 
+    [Header("Boss Messages")]
+    [SerializeField] private GameObject bossMessagePanel;      // панель с текстом
+    [SerializeField] private TextMeshProUGUI bossMessageText;  // сам текст
+    [SerializeField] private float bossMessageDuration = 3f;   // сколько секунд показывать
+
     public event Action OnSaveRequested;
     public event Action OnLoadRequested;
     public event Action OnMainMenuRequested;
     public event Action OnResumeRequested;
     public event Action OnRestartRequested;
+    
+
+    private Coroutine _bossMessageRoutine;
 
     private void Awake()
     {
@@ -75,4 +84,24 @@ public class UIView : MonoBehaviour
 
     public void ShowGameOver(bool show) => gameOverScreen?.SetActive(show);
     public void ShowPauseMenu(bool show) => pauseMenu?.SetActive(show);
+    public void ShowVictory(bool show)   => victoryMenu?.SetActive(show);
+
+    public void ShowBossMessage(string message)
+    {
+        if (bossMessagePanel == null || bossMessageText == null) return;
+
+        if (_bossMessageRoutine != null)
+            StopCoroutine(_bossMessageRoutine);
+
+        _bossMessageRoutine = StartCoroutine(BossMessageRoutine(message));
+    }
+
+    private System.Collections.IEnumerator BossMessageRoutine(string message)
+    {
+        bossMessageText.text = message;
+        bossMessagePanel.SetActive(true);
+        yield return new WaitForSecondsRealtime(bossMessageDuration);
+        bossMessagePanel.SetActive(false);
+        _bossMessageRoutine = null;
+    }
 }
